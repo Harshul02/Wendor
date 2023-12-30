@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -9,6 +10,8 @@ const db = new sqlite3.Database('./todos.db');
 db.run('CREATE TABLE IF NOT EXISTS todos (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, completed BOOLEAN)');
 
 app.use(bodyParser.json());
+
+app.use(cors());
 
 app.get('/todos', (req, res) => {
   db.all('SELECT * FROM todos', (err, rows) => {
